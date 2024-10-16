@@ -66,7 +66,6 @@ func auth(c *gin.Context) {
 func router(e *gin.Engine) {
 	group := e.Group("/api/v1", auth)
 	{
-		group.POST("/newNamespace", newNamespace)
 		group.POST("/deleteNamespace", deleteNamespace)
 		group.POST("/showNamespace", showNamespace)
 		group.POST("/createDB", createDB)
@@ -74,18 +73,6 @@ func router(e *gin.Engine) {
 		group.POST("/queryCommand", queryCommand)
 		group.POST("/dropDB", dropDB)
 		group.POST("/getDBSize", getDBSize)
-	}
-}
-
-func newNamespace(c *gin.Context) {
-	var req reqvo.NewNamespaceReqVO
-	if shouldBindJSON(&req, c) {
-		err := sqlite.NewNamespace(dataPath, req.Namespace)
-		if err != nil {
-			c.String(http.StatusInternalServerError, err.Error())
-		} else {
-			c.String(http.StatusOK, "")
-		}
 	}
 }
 

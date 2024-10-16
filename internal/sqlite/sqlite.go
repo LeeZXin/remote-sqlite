@@ -29,10 +29,6 @@ func joinPath(dataPath, namespace, dbPath string) string {
 	return filepath.Join(dataPath, namespace, dbPath)
 }
 
-func NewNamespace(dataPath, namespace string) error {
-	return os.MkdirAll(filepath.Join(dataPath, namespace), os.ModePerm)
-}
-
 func DeleteNamespace(dataPath, namespace string) error {
 	return os.RemoveAll(filepath.Join(dataPath, namespace))
 }
@@ -56,6 +52,11 @@ func ShowNamespace(dataPath, namespace string) ([]string, error) {
 }
 
 func CreateDB(dataPath, namespace, dbPath string) error {
+	dir := filepath.Join(dataPath, namespace)
+	err := os.MkdirAll(dir, os.ModePerm)
+	if err != nil {
+		return err
+	}
 	return create(joinPath(dataPath, namespace, dbPath))
 }
 

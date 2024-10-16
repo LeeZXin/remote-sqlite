@@ -15,15 +15,8 @@ func newClient() *Client {
 	}
 }
 
-func TestClient_NewNamespace(t *testing.T) {
-	err := newClient().NewNamespace(context.Background(), "lizexin")
-	if err != nil {
-		panic(err)
-	}
-}
-
 func TestClient_CreateDB(t *testing.T) {
-	err := newClient().CreateDB(context.Background(), "lizexin", "fick")
+	err := newClient().CreateDB(context.Background(), "lizexin2", "fick")
 	if err != nil {
 		panic(err)
 	}

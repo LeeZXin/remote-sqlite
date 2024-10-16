@@ -34,16 +34,6 @@ func (c *Client) url(path string) string {
 	return "http://" + c.Host + path
 }
 
-func (c *Client) NewNamespace(ctx context.Context, namespace string) error {
-	_, err := c.post(ctx, c.url("/api/v1/newNamespace"), reqvo.NewNamespaceReqVO{
-		Namespace: namespace,
-	})
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 func (c *Client) DeleteNamespace(ctx context.Context, namespace string) error {
 	_, err := c.post(ctx, c.url("/api/v1/deleteNamespace"), reqvo.DeleteNamespaceReqVO{
 		Namespace: namespace,

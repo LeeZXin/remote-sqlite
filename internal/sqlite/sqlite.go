@@ -106,6 +106,14 @@ func QueryCommand(dataPath, namespace, dbPath, cmd string) ([]map[string]string,
 	return ret, nil
 }
 
+func GetDBSize(dataPath, namespace, dbPath string) (int64, error) {
+	stat, err := os.Stat(joinPath(dataPath, namespace, dbPath))
+	if err != nil {
+		return 0, errors.New("no such file or directory")
+	}
+	return stat.Size(), nil
+}
+
 func DropDB(dataPath, namespace, dbPath string) error {
 	return os.Remove(joinPath(dataPath, namespace, dbPath))
 }

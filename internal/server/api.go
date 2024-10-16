@@ -73,6 +73,7 @@ func router(e *gin.Engine) {
 		group.POST("/executeCommand", executeCommand)
 		group.POST("/queryCommand", queryCommand)
 		group.POST("/dropDB", dropDB)
+		group.POST("/getDBSize", getDBSize)
 	}
 }
 
@@ -158,6 +159,20 @@ func dropDB(c *gin.Context) {
 			c.String(http.StatusInternalServerError, err.Error())
 		} else {
 			c.String(http.StatusOK, "")
+		}
+	}
+}
+
+func getDBSize(c *gin.Context) {
+	var req reqvo.GetDBSizeReqVO
+	if shouldBindJSON(&req, c) {
+		size, err := sqlite.GetDBSize(dataPath, req.Namespace, req.DbName+".db")
+		if err != nil {
+			c.String(http.StatusInternalServerError, err.Error())
+		} else {
+			c.JSON(http.StatusOK, gin.H{
+				"size": size,
+			})
 		}
 	}
 }

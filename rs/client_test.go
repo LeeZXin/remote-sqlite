@@ -47,10 +47,18 @@ func TestClient_ShowNamespace(t *testing.T) {
 
 func TestClient_ExecuteCommand(t *testing.T) {
 	rows, err := newClient().ExecuteCommand(context.Background(), "lizexin", "fick", `
-	insert into COMPANY (ID, NAME, AGE) values (1, 'fick', 1), (2, 'vike', 2)
+	create index idx_name_2 on COMPANY(name2)
 `)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(rows)
+}
+
+func TestClient_GetDBSize(t *testing.T) {
+	size, err := newClient().GetDBSize(context.Background(), "lizexin", "fick")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(size)
 }

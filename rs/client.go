@@ -116,6 +116,21 @@ func (c *Client) DropDB(ctx context.Context, namespace, dbName string) error {
 	return nil
 }
 
+func (c *Client) GetDBSize(ctx context.Context, namespace, dbName string) (int64, error) {
+	body, err := c.post(ctx, c.url("/api/v1/getDBSize"), reqvo.GetDBSizeReqVO{
+		Namespace: namespace,
+		DbName:    dbName,
+	})
+	if err != nil {
+		return 0, err
+	}
+	ret := make(gin.H)
+	err = json.Unmarshal(body, &ret)
+	if err != nil {
+		return 0, err
+	}
+	return cast.ToInt64(ret["size"]), nil
+}
 func (c *Client) post(ctx context.Context, url string, req any) ([]byte, error) {
 	m, _ := json.Marshal(req)
 	request, err := http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewReader(m))

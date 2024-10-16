@@ -65,3 +65,12 @@ type ShowNamespaceReqVO struct {
 func (r *ShowNamespaceReqVO) IsValid() bool {
 	return r.Namespace != ""
 }
+
+type GetDBSizeReqVO struct {
+	Namespace string `json:"namespace"`
+	DbName    string `json:"dbName"`
+}
+
+func (r *GetDBSizeReqVO) IsValid() bool {
+	return r.Namespace != "" && r.DbName != ""
+}
